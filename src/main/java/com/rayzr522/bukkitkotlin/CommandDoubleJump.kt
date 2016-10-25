@@ -1,6 +1,7 @@
 package com.rayzr522.bukkitkotlin
 
 import org.bukkit.ChatColor
+import org.bukkit.GameMode
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -20,6 +21,10 @@ class CommandDoubleJump : CommandExecutor {
 
         var dblJmp = !PlayerData[sender].doubleJump
         PlayerData[sender].doubleJump = dblJmp
+        
+        if (sender?.gameMode != GameMode.CREATIVE) {
+            sender?.allowFlight = dblJmp
+        }
 
         sender?.sendMessage("${ChatColor.GREEN}Double jumping is now ${ChatColor.AQUA}${if (dblJmp) "enabled" else "disabled"}")
 
