@@ -1,0 +1,11 @@
+name: BukkitKotlin
+main: com.rayzr522.bukkitkotlin.BukkitKotlin
+version: 1.0
+description: A test plugin written in Kotlin!
+commands:
+  speed:
+    description: "Sets your fly or walk speed"
+    usage: "\u00a7Something went horribly wrong!"
+  doublejump:
+    description: "Toggle double-jump mode"
+    usage: "\u00a7Something went horribly wrong!"
