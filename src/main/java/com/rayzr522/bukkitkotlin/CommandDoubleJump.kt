@@ -21,7 +21,7 @@ class CommandDoubleJump : CommandExecutor {
 
         var dblJmp = !PlayerData[sender].doubleJump
         PlayerData[sender].doubleJump = dblJmp
-        
+
         if (sender?.gameMode != GameMode.CREATIVE) {
             sender?.allowFlight = dblJmp
         }

@@ -14,12 +14,17 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
 import org.bukkit.plugin.java.JavaPlugin
-import java.util.*
 
 class BukkitKotlin : JavaPlugin(), Listener {
 
     fun Location.isSolidBelow(): Boolean {
         return this.block.getRelative(BlockFace.DOWN).type.isSolid
+    }
+
+    private var  warpManager: WarpManager
+
+    init {
+        warpManager = WarpManager(this)
     }
 
     override fun onEnable() {
@@ -29,6 +34,8 @@ class BukkitKotlin : JavaPlugin(), Listener {
 
         getCommand("speed").executor = CommandFly()
         getCommand("doublejump").executor = CommandDoubleJump()
+
+        warpManager.enable()
 
         server.onlinePlayers.forEach { PlayerData(it.uniqueId, it.name) }
 
@@ -41,6 +48,8 @@ class BukkitKotlin : JavaPlugin(), Listener {
     private fun loadConfig() {
         var section: ConfigurationSection? = config.getConfigurationSection("players") ?: return
         section!!.getKeys(false).forEach { PlayerData.load(it, section.getConfigurationSection(it)) }
+
+        warpManager.load()
     }
 
     override fun onDisable() {
@@ -48,6 +57,8 @@ class BukkitKotlin : JavaPlugin(), Listener {
         var section = config.createSection("players")
         PlayerData.players.forEach { section.createSection(it.key.toString(), it.value.serialize()) }
         saveConfig()
+
+        warpManager.save()
 
         logger.info("BukkitKotlin has been disabled! Goodbye ^w^")
 
